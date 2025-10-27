@@ -1,0 +1,17 @@
+# Node modules
+/node_modules
+/client/node_modules
+/api/node_modules
+
+# Build outputs
+/client/dist
+/api/dist
+
+# Logs and environment files
+*.log
+.env
+.env.local
+
+# macOS / VSCode / system files
+.DS_Store
+.vscode/
