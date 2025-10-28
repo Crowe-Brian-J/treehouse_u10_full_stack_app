@@ -5,3 +5,9 @@ export const getCourses = async () => {
   if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`)
   return await response.json()
 }
+
+export const getCourseById = async (id) => {
+  const response = await fetch(`${API_BASE_URL}/courses/${id}`)
+  if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`)
+  return await response.json()
+}

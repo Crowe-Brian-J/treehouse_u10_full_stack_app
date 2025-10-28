@@ -4,9 +4,8 @@ import { getCourses } from './api'
 
 // Components
 import Header from './components/Header'
-
-// Placeholder
-const Courses = () => <h2>Courses Page (will list courses here)</h2>
+import Courses from './components/Courses'
+import CourseDetail from './components/CourseDetail'
 
 const App = () => {
   useEffect(() => {
@@ -20,6 +19,7 @@ const App = () => {
       <Header />
       <Routes>
         <Route path="/" element={<Courses />} />
+        <Route path="/courses/:id" element={<CourseDetail />} />
       </Routes>
     </div>
   )

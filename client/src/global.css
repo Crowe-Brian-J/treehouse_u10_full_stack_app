@@ -27,6 +27,7 @@ a {
     max-width: 1250px;
     margin: 0 auto;
     padding: 0 1rem;
+    background-color: #555; /* remove later, white text on white backgournd, currently */
 }
 header {
     background: #57496e;
