@@ -1,6 +1,8 @@
 import { useEffect } from 'react'
 import { getCourses } from './api'
 
+import Header from './components/Header'
+
 const App = () => {
   useEffect(() => {
     getCourses()
@@ -10,6 +12,7 @@ const App = () => {
 
   return (
     <div>
+      <Header />
       <h1>Course Directory</h1>
     </div>
   )
