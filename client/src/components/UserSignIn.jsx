@@ -1,18 +1,44 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useState, useContext } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { UserContext } from '../context/UserContext'
 
 const UserSignIn = () => {
   const [emailAddress, setEmailAddress] = useState('')
   const [password, setPassword] = useState('')
+  const [errors, setErrors] = useState([])
+  const { signIn } = useContext(UserContext)
+  const navigate = useNavigate()
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log('Sign in attempted with:', { emailAddress, password })
+    setErrors([])
+
+    try {
+      const user = await signIn(emailAddress, password)
+      if (user) {
+        // Redirect to homepage (or previous page if implementing extra credit)
+        navigate('/')
+      } else {
+        setErrors(['Sign-in failed: Invalid email or password'])
+      }
+    } catch (error) {
+      console.error(error)
+      setErrors(['An unexpected error occurred'])
+    }
   }
 
   return (
     <div className="form--centered">
       <h2>Sign In</h2>
+      {errors.length > 0 && (
+        <div className="validation--errors">
+          <ul>
+            {errors.map((err, i) => (
+              <li key={i}>{err}</li>
+            ))}
+          </ul>
+        </div>
+      )}
       <form onSubmit={handleSubmit}>
         <label htmlFor="emailAddress">Email Address</label>
         <input
