@@ -1,21 +1,39 @@
 // /client/src/components/Header.jsx
 
 import { Link } from 'react-router-dom'
+import { useContext } from 'react'
+import { UserContext } from '../context/UserContext'
 
 const Header = () => {
+  const { authUser, signOut } = useContext(UserContext)
+  // Store this way to avoid messing with db
+  const name = `${authUser.firstName} ${authUser.lastName}`
+
   return (
     <header>
       <div className="wrap header--flex">
-        <h1 className="header--logo">Courses</h1>
+        <h1 className="header--logo">
+          <Link to="/">Courses App</Link>
+        </h1>
+
         <nav>
-          <ul className="header--signedout">
-            <li>
-              <Link href="/signup">Sign Up</Link>
-            </li>
-            <li>
-              <Link href="/signin">Sign In</Link>
-            </li>
-          </ul>
+          {authUser ? (
+            <>
+              <span>Welcome, {name}!</span>
+              <button className="button" onClick={signOut}>
+                Sign Out
+              </button>
+            </>
+          ) : (
+            <>
+              <Link className="button" to="/signup">
+                Sign Up
+              </Link>
+              <Link className="button" to="/signin">
+                Sign In
+              </Link>
+            </>
+          )}
         </nav>
       </div>
     </header>
