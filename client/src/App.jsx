@@ -6,6 +6,7 @@ import { getCourses } from './api'
 import Header from './components/Header'
 import Courses from './components/Courses'
 import CourseDetail from './components/CourseDetail'
+import UserSignIn from './components/UserSignIn'
 
 const App = () => {
   useEffect(() => {
@@ -20,6 +21,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Courses />} />
         <Route path="/courses/:id" element={<CourseDetail />} />
+        <Route path="/signin" element={<UserSignIn />} />
       </Routes>
     </div>
   )
