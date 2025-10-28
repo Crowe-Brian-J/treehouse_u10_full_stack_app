@@ -1,8 +1,10 @@
+// /api/app.js
 'use strict'
 
 // Load modules
 const express = require('express')
 const morgan = require('morgan')
+const cors = require('cors')
 
 // Variable to enable global error logging
 const enableGlobalErrorLogging =
@@ -16,6 +18,9 @@ app.use(express.json())
 
 // Setup morgan which gives us http request logging
 app.use(morgan('dev'))
+
+// Enable CORS for all routes
+app.use(cors())
 
 // Import routers
 const usersRouter = require('./routes/users')
