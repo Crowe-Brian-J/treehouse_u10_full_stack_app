@@ -1,7 +1,12 @@
 import { useEffect } from 'react'
+import { Routes, Route } from 'react-router-dom'
 import { getCourses } from './api'
 
+// Components
 import Header from './components/Header'
+
+// Placeholder
+const Courses = () => <h2>Courses Page (will list courses here)</h2>
 
 const App = () => {
   useEffect(() => {
@@ -13,7 +18,9 @@ const App = () => {
   return (
     <div>
       <Header />
-      <h1>Course Directory</h1>
+      <Routes>
+        <Route path="/" element={<Courses />} />
+      </Routes>
     </div>
   )
 }

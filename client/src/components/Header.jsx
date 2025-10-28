@@ -1,3 +1,7 @@
+// /client/src/components/Header.jsx
+
+import { Link } from 'react-router-dom'
+
 const Header = () => {
   return (
     <header>
@@ -6,10 +10,10 @@ const Header = () => {
         <nav>
           <ul className="header--signedout">
             <li>
-              <a href="/signup">Sign Up</a>
+              <Link href="/signup">Sign Up</Link>
             </li>
             <li>
-              <a href="/signin">Sign In</a>
+              <Link href="/signin">Sign In</Link>
             </li>
           </ul>
         </nav>
