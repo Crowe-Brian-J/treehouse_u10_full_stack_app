@@ -1,5 +1,5 @@
 import { useState, useContext } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { UserContext } from '../context/UserContext'
 
 const UserSignIn = () => {
@@ -7,7 +7,11 @@ const UserSignIn = () => {
   const [password, setPassword] = useState('')
   const [errors, setErrors] = useState([])
   const { signIn } = useContext(UserContext)
+
+  // Navigate and Location
   const navigate = useNavigate()
+  const location = useLocation()
+  const from = location.state?.from || '/' // Default to homepage
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -17,7 +21,8 @@ const UserSignIn = () => {
       const user = await signIn(emailAddress, password)
       if (user) {
         // Redirect to homepage (or previous page if implementing extra credit)
-        navigate('/')
+        console.log('✅ Redirecting back to:', from)
+        navigate(from, { replace: true })
       } else {
         setErrors(['Sign-in failed: Invalid email or password'])
       }
