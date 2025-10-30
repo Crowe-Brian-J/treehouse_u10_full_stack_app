@@ -1,13 +1,25 @@
 // /client/src/components/Header.jsx
 
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useContext } from 'react'
 import { UserContext } from '../context/UserContext'
 
 const Header = () => {
   const { authUser, signOut } = useContext(UserContext)
+
+  // Navigate after signOut is called
+  const navigate = useNavigate()
+
+  const handleSignOut = () => {
+    signOut()
+    navigate('/')
+  }
+
   // Store this way to avoid messing with db
-  const name = `${authUser.firstName} ${authUser.lastName}`
+  let name
+  if (authUser) {
+    name = `${authUser.firstName} ${authUser.lastName}`
+  }
 
   return (
     <header>
@@ -20,7 +32,7 @@ const Header = () => {
           {authUser ? (
             <>
               <span>Welcome, {name}!</span>
-              <button className="button" onClick={signOut}>
+              <button className="button" onClick={handleSignOut}>
                 Sign Out
               </button>
             </>
