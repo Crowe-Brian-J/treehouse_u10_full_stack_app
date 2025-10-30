@@ -1,9 +1,22 @@
-import { createContext, useState } from 'react'
+import { createContext, useState, useEffect } from 'react'
 
 export const UserContext = createContext(null)
 
 export const UserProvider = ({ children }) => {
-  const [authUser, setAuthUser] = useState(null)
+  const [authUser, setAuthUser] = useState(() => {
+    // Initialize from localStorage if available
+    const storedUser = localStorage.getItem('authUser')
+    return storedUser ? JSON.parse(storedUser) : null
+  })
+
+  // Persist to localStorage whenever authUser changes
+  useEffect(() => {
+    if (authUser) {
+      localStorage.setItem('authUser', JSON.stringify(authUser))
+    } else {
+      localStorage.removeItem('authUser')
+    }
+  })
 
   const signIn = async (emailAddress, password) => {
     try {
