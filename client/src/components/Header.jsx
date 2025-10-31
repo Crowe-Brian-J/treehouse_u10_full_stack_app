@@ -25,7 +25,7 @@ const Header = () => {
     <header>
       <div className="wrap header--flex">
         <h1 className="header--logo">
-          <Link to="/">Courses App</Link>
+          <Link to="/">Courses </Link>
         </h1>
 
         <nav>
