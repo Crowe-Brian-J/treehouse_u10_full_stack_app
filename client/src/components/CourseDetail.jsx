@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
-import { getCourseById } from '../api'
+import { getCourseById, deleteCourse } from '../api'
 import { UserContext } from '../context/UserContext'
 
 const CourseDetail = () => {
@@ -38,8 +38,18 @@ const CourseDetail = () => {
   if (!course) return <p>Loading course details...</p>
 
   const handleDelete = async () => {
-    // We'll wire this up later
-    console.log('Delete course clicked!')
+    const confirmDelete = window.confirm(
+      'Are you sure you want to delete this course?'
+    )
+    if (!confirmDelete) return
+
+    try {
+      await deleteCourse(course.id, authUser)
+      navigate('/')
+    } catch (error) {
+      console.error('Delete failed:', error)
+      navigate('/error')
+    }
   }
 
   const canEdit = authUser && authUser.id === course.userId

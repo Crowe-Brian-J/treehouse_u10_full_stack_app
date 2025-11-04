@@ -81,3 +81,33 @@ export const updateCourse = async (id, courseData, authUser) => {
 
   throw new Error(`Unexpected error: ${response.status}`)
 }
+
+/**
+ * deleteCourse(id, authUser)
+ * - Sends DELETE request using Basic Auth from authUser credentials.
+ * - Returns:
+ *   - true -> success (204 or 200)
+ *   - { errors: [...] } -> validation errors (400)
+ *   - { forbidden: true } -> 403 (user not authorized to delete)
+ *   - throws Error -> unexpected response or network issue
+ */
+
+export const deleteCourse = async (id, authUser) => {
+  const response = await fetch(`http://localhost:5000/api/courses/${id}`, {
+    method: 'DELETE',
+    headers: {
+      Authorization:
+        'Basic ' + btoa(`${authUser.emailAddress}:${authUser.password}`)
+    }
+  })
+
+  if (response.status === 204) {
+    return true
+  } else if (response.status === 403) {
+    throw new Error('Forbidden: You are not allowed to delete this course.')
+  } else if (response.status === 404) {
+    throw new Error('Course not found.')
+  } else {
+    throw new Error('An unexpected error occurred.')
+  }
+}
