@@ -75,7 +75,7 @@ header nav a:hover {
     margin-bottom: .25rem;
 }
 .course--title {
-    color: #000;
+    color: #fff;
     font-weight: 700;
     font-size: 1.25rem;
 }
@@ -90,6 +90,9 @@ header nav a:hover {
     height: auto;
     margin-right: 5px;
     fill: #57496e;
+}
+.course--add--title {
+    color: #7f7a85; /* add color for title */
 }
 .course--detail--title {
     padding-bottom: .25rem;

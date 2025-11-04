@@ -46,3 +46,38 @@ export const createCourse = async (courseData, authUser) => {
 
   throw new Error(`Unexpected error: ${response.status}`)
 }
+
+/**
+ * updateCourse(id, courseData, authUser)
+ * - Returns:
+ *   - true -> success (204 or 200)
+ *   - { errors: [...] } -> validation errors (400)
+ *   - { forbidden: true } -> 403
+ *   - throw Error -> other unexpected statuses
+ */
+export const updateCourse = async (id, courseData, authUser) => {
+  const response = await fetch(`${API_BASE_URL}/courses/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization:
+        'Basic ' + btoa(`${authUser.emailAddress}:${authUser.password}`)
+    },
+    body: JSON.stringify(courseData)
+  })
+
+  if (response.status === 204 || response.status === 200) {
+    return true
+  }
+
+  if (response.status === 400) {
+    const data = await response.json()
+    return { errors: data.errors || ['Validation failed'] }
+  }
+
+  if (response.status === 403) {
+    return { forbidden: true }
+  }
+
+  throw new Error(`Unexpected error: ${response.status}`)
+}
