@@ -25,8 +25,12 @@ const UpdateCourse = () => {
 
         // If a user is not the course owner, redirect/show error
         if (authUser && data.userId !== authUser.id) {
-          setErrors(['You are not authorized to update this course.'])
-          navigate('/forbidden')
+          const forbiddenMessage =
+            'You are not authorized to update this course.'
+          setErrors([forbiddenMessage])
+          navigate('/forbidden', {
+            state: { courseId: id, message: forbiddenMessage }
+          })
           return
         }
 

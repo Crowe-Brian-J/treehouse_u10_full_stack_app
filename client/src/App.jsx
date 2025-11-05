@@ -12,6 +12,7 @@ import PrivateRoute from './components/PrivateRoute'
 import CreateCourse from './components/CreateCourse'
 import UpdateCourse from './components/UpdateCourse'
 import NotFound from './components/NotFound'
+import Forbidden from './components/Forbidden'
 
 const App = () => {
   useEffect(() => {
@@ -48,6 +49,7 @@ const App = () => {
         {/* Public Routes */}
         <Route path="/signin" element={<UserSignIn />} />
         <Route path="/signup" element={<UserSignUp />} />
+        <Route path="/forbidden" element={<Forbidden />} />
 
         {/* Catch-All */}
         <Route path="*" element={<NotFound />} />
