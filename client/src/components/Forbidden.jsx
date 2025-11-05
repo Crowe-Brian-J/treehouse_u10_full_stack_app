@@ -1,25 +1,18 @@
 // /client/src/components/Forbidden.jsx
 
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
-const Forbidden = () => {
-  const location = useLocation()
-  const { courseId, message } = location.state?.courseId
+const Forbidden = () => (
+  <div className="wrap">
+    <h2>Forbidden</h2>
+    <p>Sorry! You are not authorized to access this page.</p>
 
-  return (
-    <div className="wrap">
-      <h2>Forbidden</h2>
-      <p>{message || 'Sorry! You are not authorized to access this page.'}</p>
-      {courseId && (
-        <Link className="button button-secondary" to={`/courses/${courseId}`}>
-          Back to Course
-        </Link>
-      )}
+    <div className="button--group">
       <Link to="/" className="button">
         Return to List
       </Link>
     </div>
-  )
-}
+  </div>
+)
 
 export default Forbidden

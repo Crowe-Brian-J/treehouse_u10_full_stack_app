@@ -23,14 +23,9 @@ const UpdateCourse = () => {
         const data = await getCourseById(id)
         if (!mounted) return
 
-        // If a user is not the course owner, redirect/show error
+        // If a user is not the course owner, redirect
         if (authUser && data.userId !== authUser.id) {
-          const forbiddenMessage =
-            'You are not authorized to update this course.'
-          setErrors([forbiddenMessage])
-          navigate('/forbidden', {
-            state: { courseId: id, message: forbiddenMessage }
-          })
+          navigate(`/forbidden`)
           return
         }
 
