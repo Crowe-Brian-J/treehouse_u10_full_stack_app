@@ -11,6 +11,7 @@ const CreateCourse = () => {
 
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
+  const [estimatedTime, setEstimatedTime] = useState('')
   const [materialsNeeded, setMaterialsNeeded] = useState('')
   const [errors, setErrors] = useState([])
 
@@ -25,6 +26,7 @@ const CreateCourse = () => {
     const courseData = {
       title,
       description,
+      estimatedTime,
       materialsNeeded,
       userId: authUser.id
     }
@@ -79,6 +81,15 @@ const CreateCourse = () => {
           name="description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
+        />
+
+        <label htmlFor="estimatedTime">Estimated Time</label>
+        <input
+          id="estimatedTime"
+          name="estimatedTime"
+          type="text"
+          value={estimatedTime}
+          onChange={(e) => setEstimatedTime(e.target.value)}
         />
 
         <label htmlFor="materialsNeeded">Materials Needed</label>
