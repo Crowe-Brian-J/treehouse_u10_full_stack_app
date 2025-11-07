@@ -1,50 +1,88 @@
 // /client/src/api.js
 
+import NotFound from './components/NotFound'
+
 const API_BASE_URL = 'http://localhost:5000/api'
 
-export const getCourses = async () => {
-  const response = await fetch(`${API_BASE_URL}/courses`)
-  if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`)
-  return await response.json()
+// Helper: Handle response codes
+const handleServerError = async (response) => {
+  const status = response.status
+
+  // No Content
+  if (status === 204 || status === 200) return true
+
+  // Validation / Bad Request
+  if (status === 400) {
+    const data = await response.json().catch(() => ({}))
+    return { errors: data.errors || ['Validation failed.'] }
+  }
+
+  // Forbidden
+  if (status === 403) return { forbidden: true }
+
+  // Not Found
+  if (status === 404) return { notFound: true }
+
+  // Internal Server Error
+  if (status === 500) return { error: 'Internal Server Error' }
+
+  // Any other unhandled status
+  return { error: `Unexpected Error: ${status}` }
 }
 
+/**
+ * getCourses()
+ * - Returns a list of all courses or { error } for server issues.
+ */
+export const getCourses = async () => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/courses`)
+    if (!response.ok) return handleResponse(response)
+    return await response.json()
+  } catch {
+    return { error: 'Network or server error.' }
+  }
+}
+
+/**
+ * getCourseById(id)
+ * - Returns course data or structured error object.
+ */
 export const getCourseById = async (id) => {
-  const response = await fetch(`${API_BASE_URL}/courses/${id}`)
-  if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`)
-  return await response.json()
+  try {
+    const response = await fetch(`${API_BASE_URL}/courses/${id}`)
+    if (!response.ok) return handleResponse(response)
+    return await response.json()
+  } catch {
+    return { error: 'Network or server error.' }
+  }
 }
 
 /**
  * createCourse(courseData, authUser)
- * - courseData: { title, description, materialsNeeded, userId }
- * - authUser: the signed-in user object (must contain emailAddress and password)
- *
- * Returns:
- * - true                -> if course created (201)
- * - { errors: [...] }   -> if validation errors (400)
- * - throws Error        -> for other unexpected statuses
+ * - Returns:
+ *   - true → success (201)
+ *   - { errors: [...] } → validation errors (400)
+ *   - { forbidden: true } → 403
+ *   - { error: ... } → 500 or other
  */
 export const createCourse = async (courseData, authUser) => {
-  const response = await fetch(`${API_BASE_URL}/courses`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization:
-        'Basic ' + btoa(`${authUser.emailAddress}:${authUser.password}`)
-    },
-    body: JSON.stringify(courseData)
-  })
+  try {
+    const response = await fetch(`${API_BASE_URL}/courses`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization:
+          'Basic ' + btoa(`${authUser.emailAddress}:${authUser.password}`)
+      },
+      body: JSON.stringify(courseData)
+    })
 
-  if (response.status === 201) {
-    return true
+    if (response.status === 201) return true
+    return handleResponse(response)
+  } catch {
+    return { error: 'Network or server error.' }
   }
-
-  if (response.status === 400) {
-    const data = await response.json()
-    return { errors: data.errors || ['Validation failed'] }
-  }
-
-  throw new Error(`Unexpected error: ${response.status}`)
 }
 
 /**
@@ -56,30 +94,20 @@ export const createCourse = async (courseData, authUser) => {
  *   - throw Error -> other unexpected statuses
  */
 export const updateCourse = async (id, courseData, authUser) => {
-  const response = await fetch(`${API_BASE_URL}/courses/${id}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization:
-        'Basic ' + btoa(`${authUser.emailAddress}:${authUser.password}`)
-    },
-    body: JSON.stringify(courseData)
-  })
-
-  if (response.status === 204 || response.status === 200) {
-    return true
+  try {
+    const response = await fetch(`${API_BASE_URL}/courses/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization:
+          'Basic ' + btoa(`${authUser.emailAddress}:${authUser.password}`)
+      },
+      body: JSON.stringify(courseData)
+    })
+    return handleResponse(response)
+  } catch {
+    return { error: 'Network or server error.' }
   }
-
-  if (response.status === 400) {
-    const data = await response.json()
-    return { errors: data.errors || ['Validation failed'] }
-  }
-
-  if (response.status === 403) {
-    return { forbidden: true }
-  }
-
-  throw new Error(`Unexpected error: ${response.status}`)
 }
 
 /**
@@ -93,21 +121,16 @@ export const updateCourse = async (id, courseData, authUser) => {
  */
 
 export const deleteCourse = async (id, authUser) => {
-  const response = await fetch(`http://localhost:5000/api/courses/${id}`, {
-    method: 'DELETE',
-    headers: {
-      Authorization:
-        'Basic ' + btoa(`${authUser.emailAddress}:${authUser.password}`)
-    }
-  })
-
-  if (response.status === 204) {
-    return true
-  } else if (response.status === 403) {
-    throw new Error('Forbidden: You are not allowed to delete this course.')
-  } else if (response.status === 404) {
-    throw new Error('Course not found.')
-  } else {
-    throw new Error('An unexpected error occurred.')
+  try {
+    const response = await fetch(`${API_BASE_URL}/courses/${id}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization:
+          'Basic ' + btoa(`${authUser.emailAddress}:${authUser.password}`)
+      }
+    })
+    return handleResponse(response)
+  } catch {
+    return { error: 'Network or server error.' }
   }
 }

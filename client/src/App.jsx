@@ -13,6 +13,7 @@ import CreateCourse from './components/CreateCourse'
 import UpdateCourse from './components/UpdateCourse'
 import NotFound from './components/NotFound'
 import Forbidden from './components/Forbidden'
+import UnhandledError from './components/UnhandledError'
 
 const App = () => {
   useEffect(() => {
@@ -50,6 +51,7 @@ const App = () => {
         <Route path="/signin" element={<UserSignIn />} />
         <Route path="/signup" element={<UserSignUp />} />
         <Route path="/forbidden" element={<Forbidden />} />
+        <Route path="/error" element={<UnhandledError />} />
 
         {/* Catch-All */}
         <Route path="*" element={<NotFound />} />
