@@ -1,3 +1,5 @@
+// /client/src/components/UpdateCourse.jsx
+
 import { useState, useEffect, useContext } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import { getCourseById, updateCourse } from '../api'
@@ -23,27 +25,26 @@ const UpdateCourse = () => {
         const data = await getCourseById(id)
         if (!mounted) return
 
-        // If a user is not the course owner, redirect
+        // If user is not course owner, redirect
         if (authUser && data.userId !== authUser.id) {
-          navigate(`/forbidden`)
+          navigate('/forbidden')
           return
         }
 
-        // Prefill fields
         setTitle(data.title || '')
         setDescription(data.description || '')
         setEstimatedTime(data.estimatedTime || '')
         setMaterialsNeeded(data.materialsNeeded || '')
       } catch (err) {
         console.error('Error fetching course:', err)
-        setErrors(['Unable to load course details.'])
+        // Redirect to UnhandledError page on server/500 errors
+        navigate('/error')
       } finally {
         if (mounted) setLoading(false)
       }
     }
 
     fetchCourse()
-
     return () => {
       mounted = false
     }
@@ -70,18 +71,17 @@ const UpdateCourse = () => {
       const result = await updateCourse(id, courseData, authUser)
 
       if (result === true) {
-        // On success redirect to course detail
         navigate(`/courses/${id}`)
       } else if (result.errors) {
         setErrors(result.errors)
       } else if (result.forbidden) {
-        setErrors(['You are not authorized to update this course.'])
+        navigate('/forbidden')
       } else {
-        setErrors(['An unexpected error occurred.'])
+        navigate('/error')
       }
     } catch (error) {
       console.error('Error updating course:', error)
-      setErrors(['An unexpected error occurred.'])
+      navigate('/error')
     }
   }
 

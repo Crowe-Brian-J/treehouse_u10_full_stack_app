@@ -17,6 +17,7 @@ const UserSignUp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setErrors([])
 
     // Client-side check
     if (password !== confirmPassword) {
@@ -29,9 +30,7 @@ const UserSignUp = () => {
     try {
       const response = await fetch('http://localhost:5000/api/users', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json; charset=utf-8'
-        },
+        headers: { 'Content-Type': 'application/json; charset=utf-8' },
         body: JSON.stringify(user)
       })
 
@@ -41,13 +40,15 @@ const UserSignUp = () => {
         navigate('/')
       } else if (response.status === 400) {
         const data = await response.json()
-        setErrors(data.errors)
+        setErrors(data.errors || ['Validation failed'])
+      } else if (response.status === 500) {
+        navigate('/error')
       } else {
-        throw new Error(`Unexpected response: ${response.status}`)
+        navigate('/error')
       }
     } catch (err) {
       console.error('Error creating user:', err)
-      setErrors(['Something went wrong. Please try again.'])
+      navigate('/error')
     }
   }
 
@@ -55,7 +56,7 @@ const UserSignUp = () => {
     <div className="form--centered">
       <h2>Sign Up</h2>
       {errors.length > 0 && (
-        <div className="validation-errors">
+        <div className="validation--errors">
           <h3>Validation Errors</h3>
           <ul>
             {errors.map((error, index) => (
