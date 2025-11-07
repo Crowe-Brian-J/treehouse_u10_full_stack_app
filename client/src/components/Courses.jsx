@@ -1,15 +1,33 @@
+// /client/src/components/Courses.jsx
+
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { getCourses } from '../api'
 
 const Courses = () => {
   const [courses, setCourses] = useState([])
+  const navigate = useNavigate()
 
   useEffect(() => {
-    getCourses()
-      .then((data) => setCourses(data))
-      .catch((err) => console.error('Error fetching courses:', err))
-  }, [])
+    const fetchCourses = async () => {
+      try {
+        const result = await getCourses()
+
+        if (result?.error) {
+          // Redirect if API indicates a 500 server error
+          navigate('/error')
+          return
+        }
+
+        setCourses(result)
+      } catch (err) {
+        console.error('Error fetching courses:', err)
+        navigate('/error')
+      }
+    }
+
+    fetchCourses()
+  }, [navigate])
 
   return (
     <div className="wrap main--grid">
@@ -23,6 +41,7 @@ const Courses = () => {
           <h3 className="course--title">{course.title}</h3>
         </Link>
       ))}
+
       <Link className="course--module course--add--module" to="/courses/create">
         <h2 className="course--add--title">+ New Course</h2>
       </Link>

@@ -6,36 +6,32 @@ import { UserContext } from '../context/UserContext'
 const CourseDetail = () => {
   const { id } = useParams()
   const [course, setCourse] = useState(null)
-  const [errors, setErrors] = useState([])
   const { authUser } = useContext(UserContext)
   const navigate = useNavigate()
 
   useEffect(() => {
-    getCourseById(id)
-      .then((data) => setCourse(data))
-      .catch((err) => {
-        console.error('Error fetching course:', err)
-        setErrors(['Unable to load course details.'])
-      })
-  }, [id])
+    const fetchCourse = async () => {
+      try {
+        const result = await getCourseById(id)
 
-  if (errors.length > 0) {
-    return (
-      <div className="wrap">
-        <h2>Course Detail</h2>
-        <div className="validation--errors">
-          <h3>Error</h3>
-          <ul>
-            {errors.map((err, idx) => (
-              <li key={idx}>{err}</li>
-            ))}
-          </ul>
-        </div>
-      </div>
-    )
-  }
+        // ✅ Check for structured responses
+        if (result?.error === 404) {
+          navigate('/notfound')
+        } else if (result?.error === 403) {
+          navigate('/forbidden')
+        } else if (result?.error === 500) {
+          navigate('/error')
+        } else {
+          setCourse(result)
+        }
+      } catch (error) {
+        console.error('Error fetching course:', error)
+        navigate('/error')
+      }
+    }
 
-  if (!course) return <p>Loading course details...</p>
+    fetchCourse()
+  }, [id, navigate])
 
   const handleDelete = async () => {
     const confirmDelete = window.confirm(
@@ -44,13 +40,24 @@ const CourseDetail = () => {
     if (!confirmDelete) return
 
     try {
-      await deleteCourse(course.id, authUser)
-      navigate('/')
+      const result = await deleteCourse(course.id, authUser)
+
+      if (result === true) {
+        navigate('/')
+      } else if (result?.forbidden) {
+        navigate('/forbidden')
+      } else if (result?.error === 404) {
+        navigate('/notfound')
+      } else {
+        navigate('/error')
+      }
     } catch (error) {
       console.error('Delete failed:', error)
       navigate('/error')
     }
   }
+
+  if (!course) return <p>Loading course details...</p>
 
   const canEdit = authUser && authUser.id === course.userId
 
@@ -76,45 +83,43 @@ const CourseDetail = () => {
 
       <div className="wrap">
         <h2>Course Detail</h2>
-        <form>
-          <div className="main--flex">
-            <div>
-              <h3 className="course--detail--title">Course</h3>
-              <h4 className="course--name">{course.title}</h4>
-              <p>
-                By{' '}
-                {course.User
-                  ? `${course.User.firstName} ${course.User.lastName}`
-                  : 'Unknown Instructor'}
-              </p>
+        <div className="main--flex">
+          <div>
+            <h3 className="course--detail--title">Course</h3>
+            <h4 className="course--name">{course.title}</h4>
+            <p>
+              By{' '}
+              {course.User
+                ? `${course.User.firstName} ${course.User.lastName}`
+                : 'Unknown Instructor'}
+            </p>
 
-              <p className="course--description">{course.description}</p>
-            </div>
-
-            <div>
-              {course.estimatedTime && (
-                <>
-                  <h3 className="course--detail--title">Estimated Time</h3>
-                  <p>{course.estimatedTime}</p>
-                </>
-              )}
-
-              {course.materialsNeeded && (
-                <>
-                  <h3 className="course--detail--title">Materials Needed</h3>
-                  <ul className="course--detail--list">
-                    {course.materialsNeeded
-                      .split('\n')
-                      .filter((item) => item.trim() !== '')
-                      .map((item, idx) => (
-                        <li key={idx}>{item}</li>
-                      ))}
-                  </ul>
-                </>
-              )}
-            </div>
+            <p className="course--description">{course.description}</p>
           </div>
-        </form>
+
+          <div>
+            {course.estimatedTime && (
+              <>
+                <h3 className="course--detail--title">Estimated Time</h3>
+                <p>{course.estimatedTime}</p>
+              </>
+            )}
+
+            {course.materialsNeeded && (
+              <>
+                <h3 className="course--detail--title">Materials Needed</h3>
+                <ul className="course--detail--list">
+                  {course.materialsNeeded
+                    .split('\n')
+                    .filter((item) => item.trim() !== '')
+                    .map((item, idx) => (
+                      <li key={idx}>{item}</li>
+                    ))}
+                </ul>
+              </>
+            )}
+          </div>
+        </div>
       </div>
     </>
   )
