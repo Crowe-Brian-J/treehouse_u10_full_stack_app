@@ -1,17 +1,15 @@
 // /client/src/api.js
 
-import NotFound from './components/NotFound'
-
 const API_BASE_URL = 'http://localhost:5000/api'
 
-// Helper: Handle response codes
-const handleServerError = async (response) => {
+// Helper: Handle all HTTP responses
+const handleResponse = async (response) => {
   const status = response.status
 
-  // No Content
-  if (status === 204 || status === 200) return true
+  // Success
+  if (status === 200 || status === 201 || status === 204) return true
 
-  // Validation / Bad Request
+  // Validation errors
   if (status === 400) {
     const data = await response.json().catch(() => ({}))
     return { errors: data.errors || ['Validation failed.'] }
@@ -23,12 +21,11 @@ const handleServerError = async (response) => {
   // Not Found
   if (status === 404) return { notFound: true }
 
-  // Internal Server Error
-  if (status === 500) return { error: 'Internal Server Error' }
-
-  // Any other unhandled status
-  return { error: `Unexpected Error: ${status}` }
+  // Anything else is considered server error
+  throw new Error(`Unexpected server response: ${status}`)
 }
+
+// --- Courses API ---
 
 /**
  * getCourses()
@@ -40,7 +37,7 @@ export const getCourses = async () => {
     if (!response.ok) return handleResponse(response)
     return await response.json()
   } catch {
-    return { error: 'Network or server error.' }
+    throw new Error('Network or server error')
   }
 }
 
@@ -54,7 +51,7 @@ export const getCourseById = async (id) => {
     if (!response.ok) return handleResponse(response)
     return await response.json()
   } catch {
-    return { error: 'Network or server error.' }
+    throw new Error('Network or server error')
   }
 }
 
@@ -77,11 +74,9 @@ export const createCourse = async (courseData, authUser) => {
       },
       body: JSON.stringify(courseData)
     })
-
-    if (response.status === 201) return true
     return handleResponse(response)
   } catch {
-    return { error: 'Network or server error.' }
+    throw new Error('Network or server error')
   }
 }
 
@@ -106,7 +101,7 @@ export const updateCourse = async (id, courseData, authUser) => {
     })
     return handleResponse(response)
   } catch {
-    return { error: 'Network or server error.' }
+    throw new Error('Network or server error')
   }
 }
 
@@ -131,6 +126,6 @@ export const deleteCourse = async (id, authUser) => {
     })
     return handleResponse(response)
   } catch {
-    return { error: 'Network or server error.' }
+    throw new Error('Network or server error')
   }
 }
