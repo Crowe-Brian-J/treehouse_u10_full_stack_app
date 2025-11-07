@@ -1,3 +1,5 @@
+// /client/src/components/UserSignIn.jsx
+
 import { useState, useContext } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { UserContext } from '../context/UserContext'
@@ -8,10 +10,9 @@ const UserSignIn = () => {
   const [errors, setErrors] = useState([])
   const { signIn } = useContext(UserContext)
 
-  // Navigate and Location
   const navigate = useNavigate()
   const location = useLocation()
-  const from = location.state?.from || '/' // Default to homepage
+  const from = location.state?.from || '/' // Redirect back to previous page or home
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -20,15 +21,15 @@ const UserSignIn = () => {
     try {
       const user = await signIn(emailAddress, password)
       if (user) {
-        // Redirect to homepage (or previous page if implementing extra credit)
         console.log('✅ Redirecting back to:', from)
         navigate(from, { replace: true })
       } else {
         setErrors(['Sign-in failed: Invalid email or password'])
       }
     } catch (error) {
-      console.error(error)
-      setErrors(['An unexpected error occurred'])
+      console.error('Sign-in error:', error)
+      // Redirect to /error for unexpected server issues
+      navigate('/error')
     }
   }
 
