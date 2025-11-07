@@ -35,16 +35,17 @@ const CreateCourse = () => {
       const result = await createCourse(courseData, authUser)
 
       if (result === true) {
-        console.log('✅ Course created successfully!')
         navigate('/')
       } else if (result.errors) {
         setErrors(result.errors)
       } else {
-        setErrors(['An unexpected error occurred.'])
+        // Unexpected errors, including 500, should redirect to /error
+        navigate('/error')
       }
     } catch (error) {
       console.error('Error creating course:', error)
-      setErrors(['An unexpected error occurred.'])
+      // Network or other unhandled errors also redirect to /error
+      navigate('/error')
     }
   }
 
