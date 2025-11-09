@@ -15,37 +15,38 @@ const Header = () => {
     navigate('/')
   }
 
-  // Store this way to avoid messing with db
-  let name
-  if (authUser) {
-    name = `${authUser.firstName} ${authUser.lastName}`
-  }
+  // Build user's full name if signed in
+  const name = authUser ? `${authUser.firstName} ${authUser.lastName}` : null
 
   return (
     <header>
       <div className="wrap header--flex">
         <h1 className="header--logo">
-          <Link to="/">Courses </Link>
+          <Link to="/">Courses</Link>
         </h1>
 
         <nav>
-          {authUser ? (
-            <>
-              <span>Welcome, {name}!</span>
-              <button className="button" onClick={handleSignOut}>
-                Sign Out
-              </button>
-            </>
-          ) : (
-            <>
-              <Link className="button" to="/signup">
-                Sign Up
-              </Link>
-              <Link className="button" to="/signin">
-                Sign In
-              </Link>
-            </>
-          )}
+          <ul className={authUser ? 'header--signedin' : 'header--signedout'}>
+            {authUser ? (
+              <>
+                <li>Welcome, {name}!</li>
+                <li>
+                  <button onClick={handleSignOut} className="signout-link">
+                    Sign Out
+                  </button>
+                </li>
+              </>
+            ) : (
+              <>
+                <li>
+                  <Link to="/signup">Sign Up</Link>
+                </li>
+                <li>
+                  <Link to="/signin">Sign In</Link>
+                </li>
+              </>
+            )}
+          </ul>
         </nav>
       </div>
     </header>

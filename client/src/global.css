@@ -46,21 +46,32 @@ header {
 header li {
     font-size: .8rem;
 }
-header nav a {
-    color: #dbd;
+header nav a, header nav .button {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.2s;
 }
 header nav a:hover {
-    color: #fff;
+    color: #dbd;
 }
-
 .header--signedin li {
     text-align: right;
     line-height: 1.25;
+    margin-left: 1rem; /* Adjust if Necessary */
+    margin-right: 0.5rem;
 }
 .header--signedout li {
     display: inline-block;
-    margin-left: .5rem;
+    margin-left: 1rem;
 }
+.signout-link {
+    background: none;
+    border: none;
+    padding: 0;
+    color: inherit;
+    font: inherit;
+}
+
 .course--module {
     background: #7c689b;
     border-radius: .5rem;
