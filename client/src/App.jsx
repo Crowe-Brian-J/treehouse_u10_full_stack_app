@@ -1,3 +1,5 @@
+// /client/src/App.jsx
+
 import { useEffect } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import { getCourses } from './api'

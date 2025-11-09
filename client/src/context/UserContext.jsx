@@ -1,3 +1,5 @@
+// /client/src/context/UserContext.jsx
+
 import { createContext, useState, useEffect } from 'react'
 
 export const UserContext = createContext(null)
@@ -9,14 +11,11 @@ export const UserProvider = ({ children }) => {
     return storedUser ? JSON.parse(storedUser) : null
   })
 
-  // Persist to localStorage whenever authUser changes
+  // Persist to localStorage only when authUser changes
   useEffect(() => {
-    if (authUser) {
-      localStorage.setItem('authUser', JSON.stringify(authUser))
-    } else {
-      localStorage.removeItem('authUser')
-    }
-  })
+    if (authUser) localStorage.setItem('authUser', JSON.stringify(authUser))
+    else localStorage.removeItem('authUser')
+  }, [authUser])
 
   const signIn = async (emailAddress, password) => {
     try {
