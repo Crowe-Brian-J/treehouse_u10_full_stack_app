@@ -21,7 +21,7 @@
 ---
 
 [X] - 'Courses' - The component retrieves a list of courses from the REST API, renders a list of courses, linkes each course to its respective 'Course Detail' screen, and renders a link to the 'Create Course' screen
-[/] - 'CourseDetail' - The component retrieves the detail for a course from the REST API, renders the course details, an 'Update Course' link for navigating to the 'Update Course' screen and a 'Delete Course' button that when clicked sends a Delete Request to a delete a course
+[X] - 'CourseDetail' - The component retrieves the detail for a course from the REST API, renders the course details, an 'Update Course' link for navigating to the 'Update Course' screen and a 'Delete Course' button that when clicked sends a Delete Request to a delete a course
 [X] - 'CreateCourse' - The component renders a form allowing a user to create a new course, a 'Create Course' button that when clicked sends a POST request to the REST API's /api/courses route, and a 'Cancel' button that returns the user to the default route
 [X] - 'UpdateCourse' - The component renders a form allowing a user to update one of their existing courses, an 'Update Course' button that when clicked, sends a PUT request to the REST API's /api/courses/:id route, and a 'Cancel' button that returns the user to the 'Course Detail' screen
 
@@ -31,7 +31,7 @@
 
 [X] - The 'UpdateCourse' component redirects to the /notfound path if the requested course isn't returned from the REST API
 [X] - The 'UpdateCourse' component redirects users to the /forbidden path if the requested course isn't owned by the authenticated user
-[] - Components redirect users to the /error path when requests to the REST API return a '500 Internal Server Error' HTTP status code
+[X] - Components redirect users to the /error path when requests to the REST API return a '500 Internal Server Error' HTTP status code
 
 ---
 # Auth Components
@@ -46,8 +46,8 @@
 ## Exceeds Expectations
 ---
 
-[] - The component renders a form allowing a user to sign up by creating a new account, a "Sign Up" button that when clicked sends a POST request to the REST API's /api/users route and signs in the user, and a "Cancel" button that returns the user to the default route (i.e. the list of courses)
-[] - Components redirect users to the /error path when requests to the REST API return a "500 Internal Server Error" HTTP status code.
+[X] - The component renders a form allowing a user to sign up by creating a new account, a "Sign Up" button that when clicked sends a POST request to the REST API's /api/users route and signs in the user, and a "Cancel" button that returns the user to the default route (i.e. the list of courses)
+[X] - Components redirect users to the /error path when requests to the REST API return a "500 Internal Server Error" HTTP status code.
 
 ---
 # Routes
@@ -55,26 +55,26 @@
 ---
 
 [X] - The react-router-dom npm package is installed and listed as a dependency in the package.json file
-[] - Clicking a link navigates the user to the correct route and displays the appropriate info.
-[] - The current route is always reflected in the URL
-[] - The following routes are configured (listed in the format path - component):
-  - [] - / - Courses
-  - [] - /courses/create - CreateCourse
-  - [] - /courses/:id/update - UpdateCourse
-  - [] - /courses/:id - CourseDetail
-  - [] - /signin - UserSignIn
-  - [] - /signup - UserSignUp
+[X] - Clicking a link navigates the user to the correct route and displays the appropriate info.
+[X] - The current route is always reflected in the URL
+[X] - The following routes are configured (listed in the format path - component):
+  - [X] - / - Courses
+  - [X] - /courses/create - CreateCourse
+  - [X] - /courses/:id/update - UpdateCourse
+  - [X] - /courses/:id - CourseDetail
+  - [X] - /signin - UserSignIn
+  - [X] - /signup - UserSignUp
 
 ---
 ## Exceeds Expectations
 ---
 
-[] - The following routes and components are configured (listed in the format path - component):
-  - [] - /notfound - NotFound - Renders a message letting the user know that the requested page can't be found
-  - [] - /forbidden - Forbidden - Renders a message letting the user know that they can't access the requested page
-  - [] - /error - UnhandledError - Renders a message letting the user know that an unexpected error has occurred
+[X] - The following routes and components are configured (listed in the format path - component):
+  - [X] - /notfound - NotFound - Renders a message letting the user know that the requested page can't be found
+  - [X] - /forbidden - Forbidden - Renders a message letting the user know that they can't access the requested page
+  - [X] - /error - UnhandledError - Renders a message letting the user know that an unexpected error has occurred
 
-[] - React Router is configured so that if a route isn't matched the NotFound component is rendered
+[X] - React Router is configured so that if a route isn't matched the NotFound component is rendered
 
 ---
 # User Authentication
@@ -99,9 +99,9 @@
 ---
 
 [X] - The app contains a higher-order component (HOC) named PrivateRoute that is used to configure protected routes (i.e. routes that require authentication)
-[] - The following routes are configured using the PrivateRoute component:
-  - [] - /courses/create
-  - [] - /courses/:id/update
+[X] - The following routes are configured using the PrivateRoute component:
+  - [X] - /courses/create
+  - [X] - /courses/:id/update
 
 ---
 # User Authorization
@@ -117,7 +117,7 @@
 ## Meets Expectations
 ---
 
-[] - The "Sign Up", "Create Course", and "Update Course" screens display validation errors returned from the REST API
+[X] - The "Sign Up", "Create Course", and "Update Course" screens display validation errors returned from the REST API
 [] - The "Course Detail" screen renders the course description and materialsNeeded properties as markdown formatted text
 [X] - Provided HTML and CSS is used and the important aspects of the app generally resemble the mockups
 

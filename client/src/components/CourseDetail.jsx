@@ -4,6 +4,7 @@ import { useState, useEffect, useContext } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { getCourseById, deleteCourse } from '../api'
 import { UserContext } from '../context/UserContext'
+import ReactMarkdown from 'react-markdown' // Library to render markdown
 
 const CourseDetail = () => {
   // Retrieve course ID from the URL
@@ -118,7 +119,10 @@ const CourseDetail = () => {
                 : 'Unknown Instructor'}
             </p>
 
-            <p className="course--description">{course.description}</p>
+            {/* Render description as Markdown */}
+            <div className="course--description">
+              <ReactMarkdown>{course.description}</ReactMarkdown>
+            </div>
           </div>
 
           {/* Right column: estimated time and materials needed */}
@@ -140,7 +144,10 @@ const CourseDetail = () => {
                     .split('\n')
                     .filter((item) => item.trim() !== '')
                     .map((item, idx) => (
-                      <li key={idx}>{item}</li>
+                      <li key={idx}>
+                        {/* Render each list item as Markdown to support formatting */}
+                        <ReactMarkdown>{item}</ReactMarkdown>
+                      </li>
                     ))}
                 </ul>
               </>
