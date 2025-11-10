@@ -118,7 +118,7 @@
 ---
 
 [X] - The "Sign Up", "Create Course", and "Update Course" screens display validation errors returned from the REST API
-[] - The "Course Detail" screen renders the course description and materialsNeeded properties as markdown formatted text
+[X] - The "Course Detail" screen renders the course description and materialsNeeded properties as markdown formatted text
 [X] - Provided HTML and CSS is used and the important aspects of the app generally resemble the mockups
 
 ---
