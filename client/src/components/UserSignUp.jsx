@@ -40,7 +40,6 @@ const UserSignUp = () => {
 
       if (response.status === 201) {
         // Successful creation → sign in automatically
-        console.log('✅ User successfully created!')
         await signIn(emailAddress, password)
         navigate('/') // Redirect to homepage
       } else if (response.status === 400) {

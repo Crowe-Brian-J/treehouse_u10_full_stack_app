@@ -28,7 +28,6 @@ const UserSignIn = () => {
 
       if (user) {
         // Successful sign-in → redirect back to previous page or home
-        console.log('✅ Redirecting back to:', from)
         navigate(from, { replace: true })
       } else {
         // Sign-in failed → display validation error

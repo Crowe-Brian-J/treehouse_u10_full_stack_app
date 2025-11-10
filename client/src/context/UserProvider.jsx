@@ -38,10 +38,8 @@ const UserProvider = ({ children }) => {
       if (response.status === 200) {
         const user = await response.json()
         setAuthUser({ ...user, password }) // store user in state
-        console.log('✅ Sign-in successful:', user)
         return user
       } else if (response.status === 401) {
-        console.log('❌ Sign-in failed: Unauthorized')
         return null
       } else {
         throw new Error(`Unexpected response: ${response.status}`)
