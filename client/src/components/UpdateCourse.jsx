@@ -30,21 +30,26 @@ const UpdateCourse = () => {
         const data = await getCourseById(id)
         if (!mounted) return
 
-        // Redirect if signed-in user does not own the course
+        // If API says course not found → redirect to /notfound
+        if (data?.notFound) {
+          navigate('/notfound')
+          return
+        }
+
+        // If user is signed in but not course owner → redirect to /forbidden
         if (authUser && data.userId !== authUser.id) {
           navigate('/forbidden')
           return
         }
 
-        // Populate form fields with existing course data
+        // Populate form with fetched course data
         setTitle(data.title || '')
         setDescription(data.description || '')
         setEstimatedTime(data.estimatedTime || '')
         setMaterialsNeeded(data.materialsNeeded || '')
       } catch (err) {
         console.error('Error fetching course:', err)
-        // Redirect to error page for server/network issues
-        navigate('/error')
+        navigate('/error') // 500 or network errors
       } finally {
         if (mounted) setLoading(false)
       }

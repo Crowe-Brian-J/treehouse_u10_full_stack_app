@@ -29,8 +29,8 @@
 ## Exceeds Expectations
 ---
 
-[] - The 'UpdateCourse' component redirects to the /notfound path if the requested course isn't returned from the REST API
-[] - The 'UpdateCourse' component redirects users to the /forbidden path if the requested course isn't owned by the authenticated user
+[X] - The 'UpdateCourse' component redirects to the /notfound path if the requested course isn't returned from the REST API
+[X] - The 'UpdateCourse' component redirects users to the /forbidden path if the requested course isn't owned by the authenticated user
 [] - Components redirect users to the /error path when requests to the REST API return a '500 Internal Server Error' HTTP status code
 
 ---
