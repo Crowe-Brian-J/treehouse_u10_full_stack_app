@@ -20,7 +20,12 @@ const UserProvider = ({ children }) => {
     }
   }, [authUser])
 
-  // Sign in function: fetches user from API using Basic Auth
+  /**
+   * Sign in function: fetches user from API using Basic Auth
+   * @param {string} emailAddress
+   * @param {string} password
+   * @returns user object if successful, null if unauthorized
+   */
   const signIn = async (emailAddress, password) => {
     try {
       const response = await fetch('http://localhost:5000/api/users', {
@@ -47,7 +52,9 @@ const UserProvider = ({ children }) => {
     }
   }
 
-  // Sign out function: clears the authenticated user
+  /**
+   * Sign out function: clears the authenticated user
+   */
   const signOut = () => {
     setAuthUser(null)
   }
@@ -59,7 +66,8 @@ const UserProvider = ({ children }) => {
     signOut
   }
 
-  // Provide the context to children
+  // Provide the context to children components
+  // ✅ Make sure `value` prop is always defined
   return (
     <UserContext.Provider value={contextValue}>{children}</UserContext.Provider>
   )

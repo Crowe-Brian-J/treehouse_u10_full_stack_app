@@ -129,3 +129,9 @@
 [] - Code is free of syntax errors
 [] - No warnings or errors about unused/missing assets when running the linter (to test, run 'npm run lint' in the terminal)
 [] - Detailed code comments explaining how your functions work
+
+---
+
+[X] Check App.jsx
+[X] Check UserProvider.jsx
+[X] Check UserContext.jsx
