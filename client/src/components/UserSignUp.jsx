@@ -2,7 +2,7 @@
 
 import { useState, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { UserContext } from '../context/UserContext'
+import UserContext from '../context/UserContext'
 
 const UserSignUp = () => {
   // Access signIn from context for automatic sign-in after registration

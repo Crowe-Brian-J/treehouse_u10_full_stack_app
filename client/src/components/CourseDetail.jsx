@@ -3,7 +3,7 @@
 import { useState, useEffect, useContext } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { getCourseById, deleteCourse } from '../api'
-import { UserContext } from '../context/UserContext'
+import UserContext from '../context/UserContext'
 import ReactMarkdown from 'react-markdown' // Library to render markdown
 
 const CourseDetail = () => {

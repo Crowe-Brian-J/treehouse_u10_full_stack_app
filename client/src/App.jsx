@@ -17,6 +17,9 @@ import NotFound from './components/NotFound'
 import Forbidden from './components/Forbidden'
 import UnhandledError from './components/UnhandledError'
 
+// Context
+import UserProvider from './context/UserProvider'
+
 const App = () => {
   useEffect(() => {
     getCourses()
@@ -25,40 +28,42 @@ const App = () => {
   }, [])
 
   return (
-    <div>
-      <Header />
-      <Routes>
-        <Route path="/" element={<Courses />} />
-        <Route path="/courses/:id" element={<CourseDetail />} />
+    <UserProvider>
+      <div>
+        <Header />
+        <Routes>
+          <Route path="/" element={<Courses />} />
+          <Route path="/courses/:id" element={<CourseDetail />} />
 
-        {/* Protected Routes */}
-        <Route
-          path="/courses/create"
-          element={
-            <PrivateRoute>
-              <CreateCourse />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/courses/:id/update"
-          element={
-            <PrivateRoute>
-              <UpdateCourse />
-            </PrivateRoute>
-          }
-        />
+          {/* Protected Routes */}
+          <Route
+            path="/courses/create"
+            element={
+              <PrivateRoute>
+                <CreateCourse />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/courses/:id/update"
+            element={
+              <PrivateRoute>
+                <UpdateCourse />
+              </PrivateRoute>
+            }
+          />
 
-        {/* Public Routes */}
-        <Route path="/signin" element={<UserSignIn />} />
-        <Route path="/signup" element={<UserSignUp />} />
-        <Route path="/forbidden" element={<Forbidden />} />
-        <Route path="/error" element={<UnhandledError />} />
+          {/* Public Routes */}
+          <Route path="/signin" element={<UserSignIn />} />
+          <Route path="/signup" element={<UserSignUp />} />
+          <Route path="/forbidden" element={<Forbidden />} />
+          <Route path="/error" element={<UnhandledError />} />
 
-        {/* Catch-All */}
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </div>
+          {/* Catch-All */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </div>
+    </UserProvider>
   )
 }
 

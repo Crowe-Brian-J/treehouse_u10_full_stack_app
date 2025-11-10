@@ -3,7 +3,7 @@
 import { useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { createCourse } from '../api'
-import { UserContext } from '../context/UserContext'
+import UserContext from '../context/UserContext'
 
 const CreateCourse = () => {
   // Get the authenticated user from context

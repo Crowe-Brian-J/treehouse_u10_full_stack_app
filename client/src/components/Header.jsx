@@ -2,7 +2,7 @@
 
 import { Link, useNavigate } from 'react-router-dom'
 import { useContext } from 'react'
-import { UserContext } from '../context/UserContext'
+import UserContext from '../context/UserContext'
 
 const Header = () => {
   const { authUser, signOut } = useContext(UserContext)

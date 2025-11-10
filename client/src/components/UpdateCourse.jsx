@@ -3,7 +3,7 @@
 import { useState, useEffect, useContext } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import { getCourseById, updateCourse } from '../api'
-import { UserContext } from '../context/UserContext'
+import UserContext from '../context/UserContext'
 
 const UpdateCourse = () => {
   // Get the course ID from the URL params
