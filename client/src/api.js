@@ -1,6 +1,6 @@
 // /client/src/api.js
 
-const API_BASE_URL = 'http://localhost:5000/api'
+const API_BASE_URL = 'https://treehouseu10fullstackapp-production.up.railway.app/api'
 
 // Helper: Handle all HTTP responses
 const handleResponse = async (response) => {
