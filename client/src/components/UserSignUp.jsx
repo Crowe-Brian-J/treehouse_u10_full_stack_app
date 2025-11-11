@@ -32,11 +32,14 @@ const UserSignUp = () => {
 
     try {
       // Send POST request to create new user
-      const response = await fetch('http://localhost:5000/api/users', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json; charset=utf-8' },
-        body: JSON.stringify(user)
-      })
+      const response = await fetch(
+        'https://treehouseu10fullstackapp-production.up.railway.app/api/users',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json; charset=utf-8' },
+          body: JSON.stringify(user)
+        }
+      )
 
       if (response.status === 201) {
         // Successful creation → sign in automatically
